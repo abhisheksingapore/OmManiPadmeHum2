@@ -4,35 +4,46 @@
     android:id="@+id/activity_om_mani_padme_hum"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tatsme.ommanipadmehum.OmManiPadmeHum">
 
     <ImageView
+        android:id="@+id/buddha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buddha"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/celestialbuddhawatrong" />
 
     <Button
-        android:text="Play"
-        android:id="@+id/StartPlaybackButton"
+        android:id="@+id/PlayPauseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:onClick="startMusic"/>
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:onClick="playPauseMusic"
+        android:text="Pause" />
 
     <Button
-        android:text="Stop"
-        android:id="@+id/StopPlaybackButton"
+        android:id="@+id/StopPlayButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:onClick="stopMusic"/>
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:onClick="stopMusic"
+        android:text="Stop" />
 
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:onClick="loopMusic"
+        android:text="ToggleButton"
+        android:textOff="Loop Off"
+        android:textOn="Loop On" />
 
 </RelativeLayout>

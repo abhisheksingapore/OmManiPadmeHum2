@@ -3,6 +3,7 @@ package com.tatsme.ommanipadmehum;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
 
 /**
@@ -10,22 +11,24 @@ import android.os.IBinder;
  */
 
 public class BackgroundAudioService extends Service implements MediaPlayer.OnCompletionListener {
+    private final IBinder mBinder = new ServiceBinder();
     MediaPlayer mediaPlayer;
+    boolean loopMusicFlag = true;
+
+    public void onCreate() {
+        super.onCreate();
+        startMediaPlayer();
+    }
 
     @Override
     public IBinder onBind (Intent intent) {
-        return null;
+        return mBinder;
     }
 
-    @Override
-    public void onCreate (){
+    public void startMediaPlayer() {
         mediaPlayer = MediaPlayer.create(this,R.raw.original_extended_version2);
         mediaPlayer.setOnCompletionListener(this);
-    }
-
-    public int onStartCommand (Intent intent, int flags, int startID){
         mediaPlayer.start();
-        return START_STICKY;
     }
 
     public void onDestroy () {
@@ -35,7 +38,41 @@ public class BackgroundAudioService extends Service implements MediaPlayer.OnCom
         mediaPlayer.release();
     }
 
-    public void onCompletion (MediaPlayer _mediaplayer){
-        stopSelf();
+    public void pauseMusic() {
+        mediaPlayer.pause();
+    }
+
+    public void stopMusic() {
+        mediaPlayer.stop();
+    }
+
+    public void playMusic() {
+        mediaPlayer.start();
+    }
+
+    public long getTotalPlaytime() {
+        return mediaPlayer.getDuration();
+    }
+
+    public long getCurrentPlaytime() {
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    public void setLoopMusicFlag() {
+        loopMusicFlag = !loopMusicFlag;
+    }
+
+    public void onCompletion(MediaPlayer mp) {
+        if (loopMusicFlag) startMediaPlayer();
+        else {
+            stopSelf();
+            System.exit(0);
+        }
+    }
+
+    public class ServiceBinder extends Binder {
+        BackgroundAudioService getService() {
+            return BackgroundAudioService.this;
+        }
     }
 }
